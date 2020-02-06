@@ -53,6 +53,7 @@ constructor(props) {
                 <NoteEditor 
                     // if first dosnt give us any thing, giv us empty object
                     note={this._getNoteById()}
+                    handleChange={this._updateNote}
                 />
             </div>
         );
@@ -91,6 +92,32 @@ _getFilteredNotes = () => {
             console.log('updated current id')
             
         })
+    }
+
+    _updateNote = (changedNote) => {
+        // .table console logs table of array
+        console.table(changedNote)
+
+        // Alternative to super extra fancy version that uses .map()
+        // const updatedNotesArray = [...this.state.notes];
+        // const theIndex = updatedNotesArray.findIndex(note => NoteEditor.id === changedNote.id);
+        // updatedNotesArray[theIndex] = changedNote;
+
+
+        // super fancy version:
+        const updatedNotesArray = this.state.notes.map(note => {
+            if (note.id !== this.state.currentNoteId) {
+                return note;
+            } else {
+                return changedNote;
+            }
+        });
+
+        this.setState({
+            notes: updatedNotesArray
+        }, () => {
+            console.log(`Updated note with id ${changedNote.id}`);
+        });     
     }
 }
 
