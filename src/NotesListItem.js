@@ -3,10 +3,16 @@ import React from 'react';
 
 function NotesListItem({
     title,
-    id
+    id,
+    handleClick
 }) {
     return (
-        <li>{title}</li>
+        <li
+            onClick={() => {
+                console.log(`you clicked ${id}`);
+                handleClick(id);
+            }}
+        >{title}</li>
     );
 }
 

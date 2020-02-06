@@ -9,7 +9,8 @@ class NotesApp extends React.Component {
 constructor(props) {
     super(props);
     this.state = {
-        searchText: 'help me i am a search bar',
+        currentNoteId: '',
+        searchText: '',
         notes: [
             {
                 id: 'aaaaaaa',
@@ -40,20 +41,39 @@ constructor(props) {
     render() {
         return (
             <div>
-                <h1>Best Notes App Ever</h1>
+                <h1>Notes App</h1>
                 <NewNote />
                 <SearchBar 
                     handleChange={this._setSearchText}
                     text={this.state.searchText} />
                 <NotesList 
-                    notes={this.state.notes}
+                    notes={this._getFilteredNotes()}
+                    handleClick={this._selectNote}
                 />
                 <NoteEditor 
-                    
+                    // if first dosnt give us any thing, giv us empty object
+                    note={this._getNoteById()}
                 />
             </div>
         );
     }
+
+_getNoteById = () => this.state.notes.find(note => 
+    note.id === this.state.currentNoteId)  || {};
+
+_getFilteredNotes = () => {
+    const filteredArray = this.state.notes.filter(note => {
+
+        const titleDoesMatch = note.title.toLowerCase().includes(this.state.searchText);
+        const copyDoesMatch = note.copy.toLowerCase().includes(this.state.searchText);
+
+        return titleDoesMatch || copyDoesMatch;
+
+    });
+
+    return filteredArray;
+}
+
 
     _setSearchText = (searchText) => {
         // this.setState({}, () => {})
@@ -64,6 +84,16 @@ constructor(props) {
         })
     }
 
+    _selectNote = (currentNoteId) => {
+        this.setState({
+            currentNoteId
+        }, () => {
+            console.log('updated current id')
+            
+        })
+    }
 }
+
+
 
 export default NotesApp;

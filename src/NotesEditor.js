@@ -1,10 +1,20 @@
 
 import React from 'react';
+import NotesListItem from './NotesListItem';
 
-function NoteEditor() {
+function NoteEditor({
+    note
+}) {
     return (
-        <textarea value="lorem ipsum blah blah"/>
+        <div>
+            <input value={note.title} />
+            <br />
+            <textarea value={note.copy} />
+        </div>
     );
 }
 
+function composeNote() {
+
+}
 export default NoteEditor;
